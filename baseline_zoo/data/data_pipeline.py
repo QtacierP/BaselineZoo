@@ -18,19 +18,22 @@ class DataPipeline(pl.LightningDataModule):
     def _build_transforms(self):
         train_transform = []
         test_transform = []
-        for transform, augs in self.config.data.train_augmentations:
-            train_transform.append(transforms_list[transform](*augs))
-        train_transform += [Normalize(mean=self.config.data.mean, std=self.config.data.std), ToTensor()]
-        for transform, augs in self.config.data.test_augmentations:
-            test_transform.append(transforms_list[transform](*augs))
-        test_transform += [Normalize(mean=self.config.data.mean, std=self.config.data.std), ToTensor()]
+        for transform, augs in self.config.data.train_augmentations.items():
+            train_transform.append(transforms_list[transform](**augs))
+        train_transform += [ToTensor(), Normalize(mean=self.config.data.mean, std=self.config.data.std)]
+        for transform, augs in self.config.data.test_augmentations.items():
+            test_transform.append(transforms_list[transform](**augs))
+        test_transform += [ToTensor(), Normalize(mean=self.config.data.mean, std=self.config.data.std)]
         return Compose(train_transform), Compose(test_transform)
 
     def train_dataloader(self):
-        return DataLoader(self.train_dataset, batch_size=self.batch_size)
+        return DataLoader(self.train_dataset, batch_size=self.config.train.batch_size_per_gpu, 
+                          num_workers=self.config.train.num_workers, shuffle=True)
 
     def val_dataloader(self):
-        return DataLoader(self.val_dataset, batch_size=self.batch_size)
+        return DataLoader(self.val_dataset, batch_size=self.config.train.batch_size_per_gpu, 
+                          num_workers=self.config.train.num_workers)
 
     def test_dataloader(self):
-        return DataLoader(self.test_dataset, batch_size=self.batch_size)
+        return DataLoader(self.test_dataset, batch_size=self.config.train.batch_size_per_gpu, 
+                          num_workers=self.config.train.num_workers)

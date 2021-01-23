@@ -1,0 +1,2 @@
+from baseline_zoo.data.cifar import CifarPipeline
+from baseline_zoo.data.foldclassification import FoldClassificationDataPipeline

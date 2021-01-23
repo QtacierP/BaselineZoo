@@ -11,6 +11,7 @@ class Config():
        self.init_config_list = ['data_configs', 'model_configs', 'train_configs']
        self._load_dict()
        self._bunch_dict()
+       self._save_config()
     
     def _load_dict(self):
         if not os.path.exists(self.temp_dir):
@@ -20,12 +21,21 @@ class Config():
         config_module = importlib.import_module(self.temp_dir + '.' + config_file_name)
         for config in self.init_config_list:
             setattr(self, config, getattr(config_module, config))
+        # Delete temp dir
         os.system('rm -rf {}'.format(self.temp_dir))
 
     def _bunch_dict(self):
         for config in self.init_config_list:
             sub_name = config.split('_')[0]
             setattr(self, sub_name, Bunch(getattr(self, config)))
+    
+    def _save_config(self):
+        # Save config to model dir
+        if not os.path.exists(self.model.model_dir):
+            os.makedirs(self.model.model_dir)
+        os.system('cp {} {}'.format(self.config_dir, self.model.model_dir))
+    
+        
     
 
     
