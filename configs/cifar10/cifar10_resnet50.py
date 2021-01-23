@@ -12,7 +12,7 @@ model_configs = {
 train_configs = {
     'log_dir': './experimrnt/cifar10/resnet50/logs/',
     'optimizer': ('adam', {}),
-    'scheduler': ('cosine', {' T_max': 50, 'eta_min': 0}),
+    'scheduler': ('cosine', {'T_max': 50, 'eta_min': 0}),
     'lr': 0.02,
     'epochs': 50,
     'warmup_epochs': 0,
