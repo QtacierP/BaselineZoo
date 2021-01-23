@@ -32,13 +32,3 @@ class BaselineClassifier(BaselineModel):
         self.log('val_loss', val_loss)
         self.log('val_acc', self.val_metrics.compute(), on_step=False, on_epoch=True, prog_bar=True)
     
-    def configure_optimizers(self):
-        if isinstance(self.config.train.lr, str):
-            default_lr = 0.02
-        else:
-            default_lr = self.config.train.lr
-        scheduler = LambdaLR(optimizer, ...)
-        
-        
-        return optimizer_list[self.config.train.optimizer[0]](params=self.parameters(), lr=default_lr, 
-                                                              **self.config.train.optimizer[1])
