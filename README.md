@@ -3,7 +3,7 @@
 
 This project mainly focuses on the baseline model for classification/segmentation/object detection, including resnet, resnext, densenet; deeplab, unet; faster-rcnn, yolo...
 
-This is a in progress project, if your are interested in it, thanks for starring it:)
+This is an in-progress project, if you are interested in it, thanks for starring it:)
 
 
 ## Features
