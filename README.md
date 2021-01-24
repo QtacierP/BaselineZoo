@@ -14,6 +14,8 @@ This is an in-progress project, if you are interested in it, thanks for starring
 - > Learning Rate Schdule and automatical finder
 
 
+### Segmentation
+- > DeepLab Family (Need test)
 
 
 
