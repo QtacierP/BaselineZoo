@@ -2,7 +2,7 @@ import pytorch_lightning as pl
 from pytorch_lightning import loggers
 from torch.nn import parameter
 import torch.nn.functional as F
-from baseline_zoo.trainer.optimizer import optimizer_list
+from baseline_zoo.optimizer import optimizer_list
 from baseline_zoo.model.baseline import BaselineModel
 import pytorch_lightning as pl
 import torch

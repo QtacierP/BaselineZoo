@@ -1,10 +1,10 @@
 import pytorch_lightning as pl
 import abc
 import torch
-from baseline_zoo.trainer.optimizer import optimizer_list
-from baseline_zoo.trainer.metrics import metrics_list
-from baseline_zoo.trainer.loss import loss_list
-from baseline_zoo.trainer.scheduler import scheduler_list
+from baseline_zoo.optimizer import optimizer_list
+from baseline_zoo.metrics import metrics_list
+from baseline_zoo.losses import loss_list
+from baseline_zoo.scheduler import scheduler_list
 
 
 class BaselineModel(pl.LightningModule):
@@ -22,7 +22,6 @@ class BaselineModel(pl.LightningModule):
         self.train_metrics = metrics()
         self.val_metrics = metrics(compute_on_step=False)
         
-   
     def configure_optimizers(self):
         if isinstance(self.config.train.lr, str):
             default_lr = 0.02

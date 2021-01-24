@@ -1,7 +1,7 @@
 from pytorch_lightning import trainer
 from pytorch_lightning.trainer import Trainer
-from baseline_zoo.trainer.callbacks import callbacks_list
-from baseline_zoo.trainer.logger import logger_list
+from baseline_zoo.callbacks import callbacks_list
+from baseline_zoo.loggers import logger_list
 from pytorch_lightning.loggers import LoggerCollection
 
 def build_trainer(config, args):
