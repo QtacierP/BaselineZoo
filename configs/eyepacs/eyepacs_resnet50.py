@@ -12,8 +12,8 @@ model_configs = {
 train_configs = {
     'log_dir': './experimrnt/eyepacs/resnet50/logs/',
     'optimizer': ('adam', {}),
-    'schduler': None,
-    'lr': 0.02,
+    'scheduler': ('cosine', {'T_max': 50, 'eta_min': 0}),
+    'lr': 'auto',
     'epochs': 50,
     'warmup_epochs': 0,
     'save_freq': 10,

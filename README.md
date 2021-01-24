@@ -9,7 +9,10 @@ This is an in-progress project, if you are interested in it, thanks for starring
 ## Features
 
 ### Classification
-- > ResNet Family
+- > ResNet Family & ResNext Family
+- > DenseNet Family
+- > Learning Rate Schdule and automatical finder
+
 
 
 

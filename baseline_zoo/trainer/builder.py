@@ -32,4 +32,6 @@ def build_trainer(config, args):
     keys['default_root_dir'] = config.model.model_dir
     keys['check_val_every_n_epoch'] = config.train.val_freq 
     keys['max_epochs'] = config.train.epochs 
+    keys['accelerator'] = args.accelerator
+    
     return Trainer(**keys) 

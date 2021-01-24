@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pytorch_lightning as pl
 from pytorch_lightning import loggers
 from torch.nn import parameter
@@ -22,6 +23,7 @@ class BaselineClassifier(BaselineModel):
         self.train_metrics(logits, y)
         self.log('train_loss', loss)  
         self.log('train_acc', self.train_metrics.correct.float() / self.train_metrics.total, on_step=True, on_epoch=True, prog_bar=True)
+        self.log("lr", self.learning_rate, prog_bar=True, on_step=True)
         return loss
 
     def validation_step(self, batch, batch_idx):

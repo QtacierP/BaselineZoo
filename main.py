@@ -24,4 +24,6 @@ if __name__ == '__main__':
     model = build_model(config, args)
     data_pipeline = build_data(config, args)
     trainer = build_trainer(config, args)
+    if config.train.lr == 'auto':
+        trainer.tune(model, data_pipeline)
     trainer.fit(model, data_pipeline)

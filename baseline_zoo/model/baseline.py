@@ -11,6 +11,7 @@ class BaselineModel(pl.LightningModule):
     def __init__(self, config):
         super().__init__()
         self.config = config
+        self.init_lr()
         self.configure_loss()
         self.configure_metrics()
     
@@ -21,13 +22,15 @@ class BaselineModel(pl.LightningModule):
         metrics = metrics_list[self.config.train.metrics]
         self.train_metrics = metrics()
         self.val_metrics = metrics(compute_on_step=False)
-        
-    def configure_optimizers(self):
+    
+    def init_lr(self):
         if isinstance(self.config.train.lr, str):
-            default_lr = 0.02
+            self.learning_rate = 0.02
         else:
-            default_lr = self.config.train.lr
-        optimizer = optimizer_list[self.config.train.optimizer[0]](params=self.parameters(), lr=default_lr, 
+            self.learning_rate = self.config.train.lr
+
+    def configure_optimizers(self):
+        optimizer = optimizer_list[self.config.train.optimizer[0]](params=self.parameters(), lr=self.learning_rate, 
                                                               **self.config.train.optimizer[1])
         if self.config.train.scheduler is None:
             return optimizer
