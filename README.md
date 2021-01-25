@@ -10,7 +10,7 @@ This is an in-progress project, if you are interested in it, thanks for starring
 
 ### Metrics 
 - > In-implement metrics
-- > friendly metrics with auto-grade and auto-log
+- > friendly metrics with auto-grad and auto-log
 
 ### Classification
 - > ResNet Family & ResNext Family
