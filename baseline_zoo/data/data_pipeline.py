@@ -28,7 +28,7 @@ class DataPipeline(pl.LightningDataModule):
 
     def train_dataloader(self):
         return DataLoader(self.train_dataset, batch_size=self.config.train.batch_size_per_gpu, 
-                          num_workers=self.config.train.num_workers, shuffle=True)
+                          num_workers=self.config.train.num_workers, shuffle=True, drop_last=True)
 
     def val_dataloader(self):
         return DataLoader(self.val_dataset, batch_size=self.config.train.batch_size_per_gpu, 

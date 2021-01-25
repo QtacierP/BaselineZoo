@@ -17,7 +17,9 @@ class BaselineSegmentor(BaselineModel):
         self.loss = torch.nn.CrossEntropyLoss()
 
     def training_step(self, batch, batch_idx):
-        x, y = batch
+        x = batch['image']
+        y = batch['gt']
+        print(x.shape)
         logits = self(x)
         loss = self.loss(logits, y)
         self.train_metrics(logits, y)
@@ -27,7 +29,8 @@ class BaselineSegmentor(BaselineModel):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        x, y = batch
+        x = batch['image']
+        y = batch['gt']
         out = self(x)
         val_loss = self.loss(out, y)
         self.val_metrics(out, y)

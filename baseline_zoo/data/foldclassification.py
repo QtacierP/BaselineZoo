@@ -1,8 +1,4 @@
-from torch.utils import data
-from torchvision.transforms import transforms
-from baseline_zoo.data.data_pipeline import DataPipeline
-import torchvision.datasets.cifar as cifar
-from torch.utils.data import random_split, DataLoader
+from baseline_zoo.data.data_pipeline import DataPipeline 
 from torchvision.datasets import ImageFolder
 import os
 

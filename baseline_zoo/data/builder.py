@@ -1,8 +1,10 @@
 from torchvision import transforms
 import torchvision.datasets as datasets
-from baseline_zoo.data.transforms import transforms_list
 import pytorch_lightning as pl
+from baseline_zoo.data.transforms import transforms_list
 from baseline_zoo.data.dataset import dataset_list
+
+
 
 
 
@@ -16,8 +18,7 @@ def build_data(config, args):
         else:
             raise NotImplementedError('{} dataset is not supported now'.format(config.data.dataset))
     else:
-        try:
+
             return dataset_list[config.data.dataset_type](config)
-        except:
-            raise NotImplementedError('{} dataset is not supported now'.format(config.data.dataset))
+       
     
