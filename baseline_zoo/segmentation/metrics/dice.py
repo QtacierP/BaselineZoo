@@ -9,7 +9,7 @@ class DiceScore(Metric):
     def __init__(
         self,
         num_classes: int = 2,
-        threshold = None,
+        threshold = 0.5,
         bg: bool = False,
         nan_score: float = 0.0,
         no_fg_score: float = 0.0,
@@ -36,7 +36,7 @@ class DiceScore(Metric):
         if reduction == 'samplewise_mean':
             self.dice_reduction = 'elementwise_mean'
         
-        self.add_state("dice", default=torch.tensor(self.num_classes - self.bg_num, dtype=torch.float32), dist_reduce_fx="sum")
+        self.add_state("dice", default=torch.zeros(self.num_classes - self.bg_num, dtype=torch.float32), dist_reduce_fx="sum")
         self.add_state("total", default=torch.tensor(0), dist_reduce_fx="sum")
     
     def update(self, preds: torch.Tensor, target: torch.Tensor):
@@ -50,6 +50,7 @@ class DiceScore(Metric):
         preds, target = _input_format_classification(preds, target, self.threshold)
         assert preds.shape == target.shape
         N_samples = preds.shape[0]
+        self.total += N_samples
         for i in range(N_samples):
             self.dice += dice_score(
                             pred=preds[i],
@@ -58,8 +59,8 @@ class DiceScore(Metric):
                             nan_score=self.nan_score,
                             no_fg_score=self.no_fg_score,
                             reduction=self.dice_reduction)
-            print(self.dice)
-        self.total += N_samples
+            
+
 
     def compute(self):
         """
@@ -68,4 +69,7 @@ class DiceScore(Metric):
         return self.dice / self.total
     
     def compute_update(self):
+        """
+        Computes average dice on each step in one epoch.
+        """
         return self.dice / self.total

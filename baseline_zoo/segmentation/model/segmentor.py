@@ -28,7 +28,6 @@ class BaselineSegmentor(BaselineModel):
     def training_step(self, batch, batch_idx):
         x = batch['image']
         y = batch['gt']
-        print(torch.unique(y))
         logits = self(x)
         loss = self.loss(logits, y)
         self.train_metrics(logits, y)
