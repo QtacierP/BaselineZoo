@@ -3,6 +3,7 @@ from typing import Any, Callable, Optional, Union
 from pytorch_lightning.metrics.functional import dice_score 
 from pytorch_lightning.metrics.utils import _input_format_classification
 import torch
+import torch.nn.functional as F
 
 class DiceScore(Metric):
     # TODO: Only works for samplewise_mean
@@ -13,6 +14,7 @@ class DiceScore(Metric):
         bg: bool = False,
         nan_score: float = 0.0,
         no_fg_score: float = 0.0,
+        need_softmax: bool = False,
         reduction: str = 'samplewise_mean',
         compute_on_step: bool = True,
         dist_sync_on_step: bool = False,
@@ -28,6 +30,7 @@ class DiceScore(Metric):
         self.threshold = threshold
         self.num_classes = num_classes
         self.bg = bg
+        self.need_softmax = need_softmax
         self.bg_num =  (1 - int(bool(bg)))
         self.nan_score = nan_score
         self.no_fg_score = no_fg_score
@@ -47,6 +50,8 @@ class DiceScore(Metric):
             preds: Predictions from model
             target: Ground truth values
         """
+        if self.need_softmax:
+            preds = F.softmax(preds, dim=1)
         preds, target = _input_format_classification(preds, target, self.threshold)
         assert preds.shape == target.shape
         N_samples = preds.shape[0]

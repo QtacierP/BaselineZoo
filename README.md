@@ -8,6 +8,10 @@ This is an in-progress project, if you are interested in it, thanks for starring
 
 ## Features
 
+### Metrics 
+- > In-implement metrics
+- > friendly metrics with auto-grade and auto-log
+
 ### Classification
 - > ResNet Family & ResNext Family
 - > DenseNet Family
