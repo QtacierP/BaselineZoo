@@ -34,6 +34,8 @@ train_configs = {
     'log': None, # List or str
     'val_freq': None, 
     'precision': 32,
-    'num_workers': 8
+    'num_workers': 8,
+    'loss': None,
+    'metrics': None
 }
 

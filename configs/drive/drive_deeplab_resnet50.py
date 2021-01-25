@@ -26,5 +26,5 @@ train_configs = {
     'precision': 32,
     'num_workers': 8,
     'loss': 'ce',
-    'metrics': 'accuracy'
+    'metrics': 'dice'
 }
