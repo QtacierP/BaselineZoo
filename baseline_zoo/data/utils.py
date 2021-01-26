@@ -6,6 +6,7 @@ import random
 import torch
 from torch.utils.data import Dataset
 from torchvision.transforms.transforms import ToTensor
+import cv2
 
 
 class SegmentationDataset(Dataset):
@@ -38,6 +39,6 @@ class SegmentationDataset(Dataset):
         gt_tensor = torch.from_numpy(np.array(gt, dtype=np.long))
         # Deal with different datasets
         return (gt_tensor / 255.).long()
-    
+     
     def __len__(self) -> int:
         return len(self.image_list)

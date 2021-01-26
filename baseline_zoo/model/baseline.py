@@ -2,6 +2,9 @@ from logging import warn
 import pytorch_lightning as pl
 import abc
 import torch
+from torch.functional import norm
+import torch.nn.functional as F
+import torchvision
 from baseline_zoo.optimizer import optimizer_list
 from baseline_zoo.metrics import metrics_list
 from baseline_zoo.losses import loss_list
@@ -41,6 +44,28 @@ class BaselineModel(pl.LightningModule):
                 warn('{} is in-built, using pytorch-lightning metrics'.format(self.config.train.metrics))
                 self.logger_utils['train_metrics'] = self.train_metrics.compute
                 self.logger_utils['val_metrics'] = self.val_metrics.compute
+        if 'TensorBoardLogger' in self.config.train.log.keys(): # TODO: Test image logger
+            self.logger_utils['image'] = self._pre_process_image
+
+    @ torch.no_grad()
+    def _pre_process_image(self, 
+                        image, name, batch_idx, 
+                        normalize=True, softmax=False, dataformats='CHW'):
+        if softmax:
+            image = F.softmax(image, dim=1)
+        assert dataformats == 'CHW' # TODO: Only support CHW mode
+
+        if len(image.shape) == 4:  
+            if image.shape[1] != 1 and image.shape[1] != 3:
+               image = image.argmax(dim=1)
+        if len(image.shape) == 3:
+            image = image.unsqueeze(dim=1)
+        
+        grid = torchvision.utils.make_grid(image, nrow=self.config.train.batch_size_per_gpu).float()
+        if normalize:
+            for t, m, s in zip(grid, self.config.data.mean, self.config.data.std):
+                t.mul_(s).add_(m)
+        self.logger.experiment.add_images(name, grid, batch_idx, dataformats=dataformats)
 
     def configure_metrics(self):
         """

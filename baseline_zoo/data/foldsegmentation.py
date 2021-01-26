@@ -28,11 +28,13 @@ class FoldSegmentationDataPipeline(DataPipeline):
         test_gt_transform = []
         for transform, augs in self.config.data.train_augmentations.items():
             train_transform.append(transforms_list[transform](**augs))
-            train_gt_transform.append(transforms_list[transform](**augs))
+            if 'color' not in transform:
+                train_gt_transform.append(transforms_list[transform](**augs))
         train_transform += [ToTensor(), Normalize(mean=self.config.data.mean, std=self.config.data.std)]
         for transform, augs in self.config.data.test_augmentations.items():
             test_transform.append(transforms_list[transform](**augs))
-            test_gt_transform.append(transforms_list[transform](**augs))
+            if 'color' not in transform:
+                test_gt_transform.append(transforms_list[transform](**augs))
         test_transform += [ToTensor(), Normalize(mean=self.config.data.mean, std=self.config.data.std)]
         return Compose(train_transform), Compose(test_transform), \
                 Compose(train_gt_transform), Compose(test_gt_transform)

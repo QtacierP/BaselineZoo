@@ -11,7 +11,7 @@ data_configs = {
                              'horizontal_flip': {}, 
                              'affine': {'degrees':  30}, 
                              'color_jitter': {'brightness': 0.3, 'contrast': 0.3, 
-                                              'saturation': 0.3, 'hue': 0.3}},
+                                              'saturation': 0.3}},
     'test_augmentations': {'resize': {'size': (512, 512)}},
     'size': (512, 512)
 }

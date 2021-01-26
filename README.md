@@ -20,6 +20,7 @@ This is an in-progress project, if you are interested in it, thanks for starring
 
 ### Segmentation
 - > DeepLab Family (Need test)
+- > Image loggers (Some issueses)
 
 
 
