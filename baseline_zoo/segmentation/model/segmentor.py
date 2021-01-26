@@ -35,10 +35,12 @@ class BaselineSegmentor(BaselineModel):
         self.log('train_loss', loss)
         self.log_metrics('train')
         self.log("lr", self.learning_rate, prog_bar=True, on_step=True)
-        self.logger_utils['image'](x, 'train_images', batch_idx)
-        self.logger_utils['image'](logits, 'train_segmentation', batch_idx, normalize=False)
-        self.logger_utils['image'](y, 'train_gt', batch_idx, normalize=False)
+        self.logger_utils['image'](x, 'train_images', self.global_step)
+        self.logger_utils['image'](logits, 'train_segmentation', self.global_step, normalize=False)
+        self.logger_utils['image'](y, 'train_gt', self.global_step, normalize=False)
         return loss
+
+
 
     def validation_step(self, batch, batch_idx):
         x = batch['image']
@@ -48,9 +50,9 @@ class BaselineSegmentor(BaselineModel):
         self.val_metrics(out, y)
         self.log('val_loss', val_loss)
         self.log_metrics('val')
-        self.logger_utils['image'](x, 'val_images', batch_idx)
-        self.logger_utils['image'](out, 'val_segmentation', batch_idx, normalize=False)
-        self.logger_utils['image'](y, 'val_gt', batch_idx, normalize=False)
+        self.logger_utils['image'](x, 'val_images', self.global_step)
+        self.logger_utils['image'](out, 'val_segmentation', self.global_step, normalize=False)
+        self.logger_utils['image'](y, 'val_gt', self.global_step, normalize=False)
     
     def test_step(self, batch, batch_idx):
         x = batch['image']

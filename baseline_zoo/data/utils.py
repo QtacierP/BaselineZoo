@@ -27,6 +27,8 @@ class SegmentationDataset(Dataset):
         random.seed(seed)
         torch.random.manual_seed(seed)
         image_tensor = self.transform(image)
+        random.seed(seed)
+        torch.random.manual_seed(seed)
         gt = self.gt_transform(gt)
         gt_tensor = self._post_process_gt(gt)
         return {'image': image_tensor, 'gt': gt_tensor}
